@@ -3,19 +3,15 @@ import PropTypes from "prop-types";
 
 import "./style.css";
 
-function Index({ data, columns, align, sıraNo, renderCell }) {
+function Index({ data, columns, align, sıraNo }) {
   //eslint hatası almamak için props'larının zorunlu bir dizi olması gerektiğini belirtiyoruz
   Index.propTypes = {
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     align: PropTypes.oneOf(["left", "center", "right"]).isRequired, //
-    sıraNo: PropTypes.oneOf(["true", "false"]).isRequired, //
-    renderCell: PropTypes.func,
+    sıraNo: PropTypes.bool.isRequired,
   };
 
-  // const align_ = align;
-  // console.log("columns", columns[4].render());
-  // console.log("columns.action", columns.action);
   return (
     <div>
       <table style={{ width: "1000px" }}>
@@ -33,9 +29,9 @@ function Index({ data, columns, align, sıraNo, renderCell }) {
               {sıraNo && <td>{index + 1}</td>}
               {columns.map((column) => (
                 <td key={column.key}>
-                  {renderCell
-                    ? renderCell(dataItem[column.dataIndex], dataItem, column)
-                    : dataItem[column.dataIndex]}
+                  {column.render === undefined
+                    ? dataItem[column.dataIndex]
+                    : column.render(dataItem, column)}
                 </td>
               ))}
             </tr>

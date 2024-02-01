@@ -47,29 +47,27 @@ function App() {
       title: "tags",
       dataIndex: "tags",
       key: "tags",
+      render: (cellData, column) => (
+        <div style={{ backgroundColor: "red" }}>sadsa</div>
+      ),
     },
     {
       title: "action",
       dataIndex: "action",
-      // render: () => "<button onClick={console.log(record)}>tıklaaa</button>",
+      render: (cellData, column) => (
+        <button
+          style={{ backgroundColor: "red" }}
+          onClick={() => console.log("cellData", cellData)}
+        >
+          {column.title}
+        </button>
+      ),
     },
   ];
 
   return (
     <>
-      <Tablo
-        data={data}
-        columns={columns}
-        align="left"
-        sıraNo={true}
-        renderCell={(cellData, rowData, column) => {
-          if (column.dataIndex === "action") {
-            return <button onClick={() => console.log(rowData)}>tıkla</button>;
-          } else {
-            return cellData;
-          }
-        }}
-      />
+      <Tablo data={data} columns={columns} />
     </>
   );
 }
