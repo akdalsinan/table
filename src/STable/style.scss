@@ -12,6 +12,6 @@ tr {
   padding: 8px;
 }
 
-td:nth-child(even) {
+tr:nth-child(even) {
   background-color: #dddddd;
 }

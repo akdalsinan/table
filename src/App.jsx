@@ -1,33 +1,33 @@
 import React from "react";
 
-import Tablo from "./Tablo";
+import STable from "./STable";
+
+import { users } from "./data/users";
+import { TableProps, columnsTableProps } from "./data/tableProps";
+import { books } from "./data/books";
 
 function App() {
-  const data = [
+  const columnBooks = [
+    { title: "kitap ismi", dataIndex: "kitap_ismi" },
+    { title: "özet", dataIndex: "ozet" },
     {
-      key: "1",
-      name: "John Brownsdfs",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: "nice",
+      title: "anahtar kelimeler",
+      dataIndex: "anahtar_kelimeler",
+      render: (row) => {
+        if (row.length > 50) {
+          return row;
+        }
+      },
     },
     {
-      key: "2",
-      name: "Jim Greesfddsfn",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: "loser",
-    },
-    {
-      key: "3",
-      name: "Joe Bldsfdsack",
-      age: 32,
-      address: "Sydney No. 1 Lake Park",
-      tags: "cool",
+      title: "action",
+      render: (row, column) => (
+        <button style={{ backgroundColor: "red" }}>tıkla</button>
+      ),
     },
   ];
 
-  const columns = [
+  const columnsUsers = [
     {
       title: "Name",
       dataIndex: "name",
@@ -59,7 +59,7 @@ function App() {
           style={{ backgroundColor: "red" }}
           onClick={() => console.log("cellData", cellData)}
         >
-          {column.title}
+          {/* {column.title} */}
         </button>
       ),
     },
@@ -67,7 +67,13 @@ function App() {
 
   return (
     <>
-      <Tablo data={data} columns={columns} />
+      <STable
+        data={books}
+        columns={columnBooks}
+        // search={true}
+        // sıraNo={true}
+        // align="center"
+      />
     </>
   );
 }
