@@ -1,26 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import "./style.scss";
 
-function Index({ data, columns, align, sıraNo, search }) {
+import { rowSelection } from "../stores/checkRowData";
+// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+function Index({
+  data,
+  columns,
+  align,
+  sıraNo,
+  search,
+  checkbox,
+  heightPx,
+  widthPx,
+}) {
   // props'larının türlerini belirtiyoruz
   Index.propTypes = {
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
-    align: PropTypes.oneOf(["left", "center", "right"]).isRequired, //
+    align: PropTypes.oneOf(["left", "center", "right"]).isRequired,
     sıraNo: PropTypes.bool.isRequired,
     search: PropTypes.bool.isRequired,
+    checkbox: PropTypes.bool.isRequired,
+    heightPx: PropTypes.number.isRequired,
+    widthPx: PropTypes.number.isRequired,
   };
-  // columns.map((item) => {
-  // const [item.dataIndex, setitem.dataIndex] = useState(second)}
-  // );
-
+  // Propsların default değerleri
+  Index.defaultProps = {
+    align: "left",
+    sıraNo: false,
+    search: false,
+    checkbox: false,
+    heightPx: 500,
+    widthPx: 1000,
+  };
+  const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState("");
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
 
+  // Aranan kelimeyi highlight olarak gösterme fonksiyonu
   const highlightSearchText = (text, keyword) => {
     if (typeof text !== "string") {
-      return text; // Eğer text bir metin değilse, doğrudan text değerini geri döndür
+      return text;
     }
     const regex = new RegExp(`(${keyword})`, "gi");
     return text.replace(
@@ -29,50 +52,56 @@ function Index({ data, columns, align, sıraNo, search }) {
     );
   };
 
-  // columns.map((item) => console.log("itemsss", item));
-
+  // Genel keleime arama fonksiyonu
   const searchFunc = (value) => {
     const valueCaseSensitive = value.toLocaleLowerCase();
 
     return data.filter((item) => {
       return columns.some((column) => {
         const columnValue = item[column.dataIndex];
-        if (column.dataIndex) {
+
+        if (columnValue) {
           if (typeof columnValue === "string") {
             return columnValue.toLocaleLowerCase().includes(valueCaseSensitive);
           } else {
-            // Değer bir string değilse, doğrudan değeri döndürün veya dönüşüm işlemleri yapın
+            // Değer bir string değilse, doğrudan değeri döndür veya dönüşüm işlemleri yap
             return columnValue
               .toString()
               .toLowerCase()
               .includes(valueCaseSensitive);
           }
         }
-
-        // (
-        //   column.dataIndex &&
-        //   item[column.dataIndex]
-        //     .toLocaleLowerCase()
-        //     .includes(valueCaseSensitive)
-        // );
-        // console.log("column", item[column.dataIndex]);
       });
     });
   };
   const datam = searchFunc(searchValue);
-  console.log("datam", datam);
+
+  // Satırı checkbox ile seçme fonksiyonu
+  const handleCheckboxChange = (dataItem, e) => {
+    if (e) {
+      setSelectedCheckboxes([...selectedCheckboxes, dataItem]);
+    } else {
+      // Eğer checkbox işaretli değilse, seçili checkbox değerlerinden kaldır
+      setSelectedCheckboxes(
+        selectedCheckboxes.filter((item) => item !== dataItem)
+      );
+    }
+  };
+
+  // console.log("selectedCheckboxes", selectedCheckboxes);
+  dispatch(rowSelection({ selectedCheckboxes }));
 
   return (
-    <div>
-      <table style={{ width: "1000px" }}>
+    <div
+      className="tableDiv"
+      style={{
+        height: heightPx ? heightPx : "500px",
+        width: widthPx ? widthPx : "1000px",
+      }}
+    >
+      <table>
         {/* thead */}
-        <thead
-          style={{
-            width: "100px",
-            backgroundColor: "gray",
-          }}
-        >
-          {/* search prop */}
+        <thead style={{ backgroundColor: "gray" }}>
           {search && (
             <input
               placeholder="search"
@@ -80,10 +109,9 @@ function Index({ data, columns, align, sıraNo, search }) {
               type="text"
             />
           )}
-
           <tr>
-            {/* sıraNo prop */}
             {sıraNo && <th className="sıraNoHeader">sıra no</th>}
+            {checkbox && <th className="sıraNoHeader">check</th>}
             {columns.map((column) => (
               <th key={column.key}>{column.title}</th>
             ))}
@@ -91,10 +119,23 @@ function Index({ data, columns, align, sıraNo, search }) {
         </thead>
 
         {/* tbody */}
-        <tbody>
+        <tbody style={{ border: "1px solid red" }}>
           {datam.map((dataItem, index) => (
             <tr key={dataItem.key} style={{ textAlign: align }}>
               {sıraNo && <td key={dataItem.key}>{index + 1}</td>}
+              {checkbox && (
+                <td key={dataItem.key}>
+                  <input
+                    type="checkbox"
+                    id="dataItem.key"
+                    name="vehicle3"
+                    value={dataItem.title}
+                    onChange={(e) =>
+                      handleCheckboxChange(dataItem, e.target.checked)
+                    }
+                  />
+                </td>
+              )}
               {columns.map((column) => (
                 <td key={column.key}>
                   {column.render === undefined ? (

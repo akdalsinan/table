@@ -25,10 +25,28 @@ export const TableProps = [
     default: "false",
   },
   {
-    property: "searchInput",
+    property: "search",
     description: "Search inputun olup olmayacağını belirtin",
     type: "boolean",
     default: "false",
+  },
+  {
+    property: "checkbox",
+    description: "Seçili satırı checkbox olarak seçme",
+    type: "boolean",
+    default: "false",
+  },
+  {
+    property: "height",
+    description: "Tablonun height özelliğini ayarlayın",
+    type: "number",
+    default: 500,
+  },
+  {
+    property: "width",
+    description: "Tablonun width özelliğini ayarlayın",
+    type: "number",
+    default: 1000,
   },
 ];
 

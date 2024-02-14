@@ -1,12 +1,16 @@
 import React from "react";
 
 import STable from "./STable";
+import { useSelector } from "react-redux";
 
 import { users } from "./data/users";
 import { TableProps, columnsTableProps } from "./data/tableProps";
 import { books } from "./data/books";
 
 function App() {
+  const selectionCheckBoxes = useSelector((state) => state.selectionRow.value);
+  console.log("selectionCheckBoxes", selectionCheckBoxes);
+
   const columnBooks = [
     { title: "kitap ismi", dataIndex: "kitap_ismi" },
     { title: "özet", dataIndex: "ozet" },
@@ -22,7 +26,13 @@ function App() {
     {
       title: "action",
       render: (row, column) => (
-        <button style={{ backgroundColor: "red" }}>tıkla</button>
+        <button
+          onClick={() => {
+            console.log("row", column);
+          }}
+        >
+          tıkla
+        </button>
       ),
     },
   ];
@@ -68,11 +78,14 @@ function App() {
   return (
     <>
       <STable
-        data={books}
-        columns={columnBooks}
-        // search={true}
-        // sıraNo={true}
+        data={TableProps}
+        columns={columnsTableProps}
         // align="center"
+        sıraNo={true}
+        // search={true}
+        checkbox={true}
+        // heightPx={500}
+        // widthPx={1500}
       />
     </>
   );

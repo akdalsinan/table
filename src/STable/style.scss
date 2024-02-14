@@ -1,17 +1,49 @@
+.tableDiv {
+  overflow: auto;
+}
+
 .table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 100%;
-  width: 1000px;
+  // width: 100%;
+  // height: 100px;
+  // overflow: auto;
+  // width: 1000px;
 }
 
-.td,
-tr {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
+// tr,
+// td {
+//   border: 1px solid black;
+//   text-align: left;
+//   padding: 8px;
+// }
 
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+tr:hover {
+  background-color: #dddddd;
+}
+// .searchNotFound {
+//   display: flex;
+//   justify-content: center;
+//   text-align: center;
+//   align-items: center;
+//   width: 100%;
+// }
+// @mixin hoverEffect($hovered) {
+//   @if $hovered {
+//     &:hover {
+//       // hover için stil tanımları
+//       background-color: #dddddd;
+//     }
+//   }
+// }
+
+// .tablo {
+//   // tablo stil tanımları
+
+//   // hover efekti için mixin kullanımı
+//   @include hoverEffect($hovered);
+// }
