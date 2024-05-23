@@ -1,8 +1,10 @@
-# React + Vite
+# tables7 NPM package
 
 React vite kullanarak oluşturmuş olduğum STable komponenti
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
+**API Table**
 ![alt text](./public/tableAPI.PNG)
+
+**Install**
+
+`npm i tables7`
