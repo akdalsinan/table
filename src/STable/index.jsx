@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 import "./style.scss";
 
@@ -16,26 +16,26 @@ function Index({
   heightPx,
   widthPx,
 }) {
-  // props'larının türlerini belirtiyoruz
-  Index.propTypes = {
-    data: PropTypes.array.isRequired,
-    columns: PropTypes.array.isRequired,
-    align: PropTypes.oneOf(["left", "center", "right"]).isRequired,
-    sıraNo: PropTypes.bool.isRequired,
-    search: PropTypes.bool.isRequired,
-    checkbox: PropTypes.bool.isRequired,
-    heightPx: PropTypes.number.isRequired,
-    widthPx: PropTypes.number.isRequired,
-  };
-  // Propsların default değerleri
-  Index.defaultProps = {
-    align: "left",
-    sıraNo: false,
-    search: false,
-    checkbox: false,
-    heightPx: 500,
-    widthPx: 1000,
-  };
+  // // props'larının türlerini belirtiyoruz
+  // Index.propTypes = {
+  //   data: PropTypes.array.isRequired,
+  //   columns: PropTypes.array.isRequired,
+  //   align: PropTypes.oneOf(["left", "center", "right"]).isRequired,
+  //   sıraNo: PropTypes.bool.isRequired,
+  //   search: PropTypes.bool.isRequired,
+  //   checkbox: PropTypes.bool.isRequired,
+  //   heightPx: PropTypes.number.isRequired,
+  //   widthPx: PropTypes.number.isRequired,
+  // };
+  // // Propsların default değerleri
+  // Index.defaultProps = {
+  //   align: "left",
+  //   sıraNo: false,
+  //   search: false,
+  //   checkbox: false,
+  //   heightPx: 500,
+  //   widthPx: 1000,
+  // };
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState("");
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
@@ -88,7 +88,6 @@ function Index({
     }
   };
 
-  // console.log("selectedCheckboxes", selectedCheckboxes);
   dispatch(rowSelection({ selectedCheckboxes }));
 
   return (

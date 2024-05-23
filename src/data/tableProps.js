@@ -37,13 +37,13 @@ export const TableProps = [
     default: "false",
   },
   {
-    property: "height",
+    property: "heightPx",
     description: "Tablonun height özelliğini ayarlayın",
     type: "number",
     default: 500,
   },
   {
-    property: "width",
+    property: "widthPx",
     description: "Tablonun width özelliğini ayarlayın",
     type: "number",
     default: 1000,
