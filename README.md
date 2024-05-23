@@ -76,7 +76,7 @@ const usersData = [
 
 ```
     <STable
-    data={users}
+    data={usersData}
     columns={columns}
     />
 ```
