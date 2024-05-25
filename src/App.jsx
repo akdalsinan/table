@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 import STable from "./STable";
-// import STable from "tablesssss/src/STable";
+// import STable from "tables7/src/STable";
 
 import { useSelector } from "react-redux";
 
@@ -51,11 +51,11 @@ function App() {
   return (
     <>
       <STable
-        data={users}
-        columns={columns}
+        data={TableProps}
+        columns={columnsTableProps}
         // align="center"
         // sıraNo={true}
-        // search={true}
+        search={true}
         // checkbox={true}
         // heightPx={500}
         // widthPx={1500}

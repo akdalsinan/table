@@ -23,8 +23,19 @@ tr:nth-child(even) {
 }
 
 tr:hover {
-  background-color: #dddddd;
+  background-color: #e8b1b1;
 }
+
+.excelPng {
+  border: #e8b1b1;
+  border-radius: 1px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  margin-bottom: -16px;
+  margin-left: 15px;
+}
+
 // .searchNotFound {
 //   display: flex;
 //   justify-content: center;

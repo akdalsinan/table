@@ -6,6 +6,11 @@ import "./style.scss";
 import { rowSelection } from "../stores/checkRowData";
 // import { useDispatch } from "react-redux";
 import { useDispatch } from "react-redux";
+import * as XLSX from "xlsx";
+
+import excelDowlandPng from "../../public/excelDowland1.png";
+import { AiOutlineAppstore } from "react-icons/ai";
+
 function Index({
   data,
   columns,
@@ -16,29 +21,10 @@ function Index({
   heightPx,
   widthPx,
 }) {
-  // // props'larının türlerini belirtiyoruz
-  // Index.propTypes = {
-  //   data: PropTypes.array.isRequired,
-  //   columns: PropTypes.array.isRequired,
-  //   align: PropTypes.oneOf(["left", "center", "right"]).isRequired,
-  //   sıraNo: PropTypes.bool.isRequired,
-  //   search: PropTypes.bool.isRequired,
-  //   checkbox: PropTypes.bool.isRequired,
-  //   heightPx: PropTypes.number.isRequired,
-  //   widthPx: PropTypes.number.isRequired,
-  // };
-  // // Propsların default değerleri
-  // Index.defaultProps = {
-  //   align: "left",
-  //   sıraNo: false,
-  //   search: false,
-  //   checkbox: false,
-  //   heightPx: 500,
-  //   widthPx: 1000,
-  // };
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState("");
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const [popoverClick, setPopoverClick] = useState(false);
 
   // Aranan kelimeyi highlight olarak gösterme fonksiyonu
   const highlightSearchText = (text, keyword) => {
@@ -88,6 +74,39 @@ function Index({
     }
   };
 
+  const handleExcel = () => {
+    // Veri indislerini çıkartma
+    const dataIndexes = columns.map((col) => col.dataIndex);
+
+    // JSON verilerini bir Excel çalışma sayfasına dönüştür
+    const worksheet = XLSX.utils.json_to_sheet(data, {
+      header: dataIndexes,
+    });
+
+    // Sütun başlıklarını Excel'e uygun şekilde ayarla
+    if (worksheet["!ref"]) {
+      const range = XLSX.utils.decode_range(worksheet["!ref"]);
+      for (let C = range.s.c; C <= range.e.c; ++C) {
+        const address = XLSX.utils.encode_col(C) + "1"; // Sütun harfi + 1 (ilk satır)
+        if (!worksheet[address]) continue; // Bu adres boşsa, döngüde bir sonraki adıma geç
+        // Her sütun için title varsa kullan, yoksa dataIndex kullan
+        worksheet[address].v =
+          columns[C] && (columns[C].title || columns[C].dataIndex);
+      }
+    }
+
+    // Çalışma sayfasını bir çalışma kitabına ekleyin
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Dosyayı indir
+    XLSX.writeFile(workbook, "data.xlsx");
+  };
+
+  const handlePopover = () => {
+    setPopoverClick(!popoverClick);
+  };
+
   dispatch(rowSelection({ selectedCheckboxes }));
 
   return (
@@ -98,16 +117,33 @@ function Index({
         width: widthPx ? widthPx : "1000px",
       }}
     >
+      <div>
+        <button onClick={handlePopover}>
+          <AiOutlineAppstore size="20px" />{" "}
+        </button>
+        {popoverClick && (
+          <div>
+            {" "}
+            {search && (
+              <input
+                placeholder="search"
+                onChange={(e) => setSearchValue(e.target.value)}
+                type="text"
+                style={{ height: "30px" }}
+              />
+            )}
+            <img
+              onClick={handleExcel}
+              src={excelDowlandPng}
+              className="excelPng"
+            />
+          </div>
+        )}
+      </div>
+
       <table>
         {/* thead */}
         <thead style={{ backgroundColor: "gray" }}>
-          {search && (
-            <input
-              placeholder="search"
-              onChange={(e) => setSearchValue(e.target.value)}
-              type="text"
-            />
-          )}
           <tr>
             {sıraNo && <th className="sıraNoHeader">sıra no</th>}
             {checkbox && <th className="sıraNoHeader">check</th>}
